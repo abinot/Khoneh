@@ -7,7 +7,9 @@ use Livewire\Component;
 class Landing extends Component
 {
     public int $restaurantCount = 0;
+
     public int $orderCount = 0;
+
     public float $uptimePercent = 0;
 
     public bool $darkMode = false;
@@ -23,7 +25,7 @@ class Landing extends Component
 
     public function toggleDarkMode(): void
     {
-        $this->darkMode = !$this->darkMode;
+        $this->darkMode = ! $this->darkMode;
         session(['dark_mode' => $this->darkMode]);
     }
 

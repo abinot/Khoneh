@@ -19,7 +19,7 @@ class ContactController extends Controller
         ]);
 
         $ip = $request->ip();
-        $key = 'contact-form:' . $ip;
+        $key = 'contact-form:'.$ip;
 
         if (RateLimiter::tooManyAttempts($key, 3)) {
             return back()->withErrors([

@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class AuthController extends Controller
 {
@@ -22,27 +24,25 @@ class AuthController extends Controller
             'password' => ['required'],
         ]);
 
-        if (! Auth::attempt($credentials, $request->boolean('remember'))) {
+        // مقایسه بدون حساسیت به بزرگ/کوچک
+        $user = User::whereRaw('LOWER(email) = ?', [Str::lower($credentials['email'])])->first();
+
+        if (! $user || ! Hash::check($credentials['password'], $user->password)) {
             return back()
                 ->withInput($request->only('email'))
                 ->withErrors(['email' => 'ایمیل یا رمز عبور اشتباه است.']);
         }
 
-        $user = Auth::user();
-
         if (! $user->is_active) {
-            Auth::logout();
-            $request->session()->invalidate();
-            $request->session()->regenerateToken();
-
             return back()
                 ->withInput($request->only('email'))
                 ->withErrors(['email' => 'حساب کاربری شما غیرفعال شده است.']);
         }
 
+        Auth::login($user, $request->boolean('remember'));
         $request->session()->regenerate();
 
-        return redirect()->route('dashboard');
+        return redirect()->intended(route('dashboard'));
     }
 
     public function showRegister()
@@ -62,14 +62,22 @@ class AuthController extends Controller
 
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'max:255', 'unique:users'],
+            'email' => [
+                'required',
+                'email',
+                'max:255',
+                // بررسی یونیک بودن بدون حساسیت به بزرگ/کوچک
+                Rule::unique('users')->where(function ($query) use ($request) {
+                    return $query->whereRaw('LOWER(email) = ?', [Str::lower($request->email)]);
+                }),
+            ],
             'password' => ['required', 'string', 'min:6'],
             'password_confirmation' => ['required', 'same:password'],
         ]);
 
         User::create([
             'name' => $data['name'],
-            'email' => $data['email'],
+            'email' => $data['email'], // ذخیره دقیقاً همان چیزی که کاربر نوشته
             'password' => Hash::make($data['password']),
             'role' => 'user',
             'is_active' => true,
@@ -82,7 +90,6 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         Auth::logout();
-
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 

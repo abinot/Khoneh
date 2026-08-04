@@ -11,10 +11,10 @@ class StatsController extends Controller
         $stats = StatsService::landingStats();
 
         return response()->json([
-            'tenants' => $stats['tenants'] . '+',
-            'orders' => number_format($stats['orders']) . '+',
-            'menus' => number_format($stats['menus']) . '+',
-            'uptime' => $stats['uptime'] . '%',
+            'tenants' => $stats['tenants'].'+',
+            'orders' => number_format($stats['orders']).'+',
+            'menus' => number_format($stats['menus']).'+',
+            'uptime' => $stats['uptime'].'%',
         ]);
     }
 }

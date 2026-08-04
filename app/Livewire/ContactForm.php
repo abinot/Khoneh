@@ -9,9 +9,13 @@ use Livewire\Component;
 class ContactForm extends Component
 {
     public string $name = '';
+
     public string $email = '';
+
     public string $phone = '';
+
     public string $businessType = '';
+
     public string $message = '';
 
     protected function rules(): array
@@ -30,10 +34,11 @@ class ContactForm extends Component
         $this->validate();
 
         $ip = request()->ip();
-        $key = 'contact-form:' . $ip;
+        $key = 'contact-form:'.$ip;
 
         if (RateLimiter::tooManyAttempts($key, 3)) {
             $this->addError('rate', 'شما بیش از حد مجاز درخواست ارسال کرده‌اید. لطفاً یک ساعت بعد تلاش کنید.');
+
             return;
         }
 

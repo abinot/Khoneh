@@ -16,7 +16,7 @@ class AuthRegistrationTest extends TestCase
         Setting::updateOrCreate(['key' => 'registration_enabled'], ['value' => $enabled ? '1' : '0']);
     }
 
-    private function testFields(array $overrides = []): array
+    private function test_fields(array $overrides = []): array
     {
         return array_merge([
             'name' => 'Sara Mohammadi',
