@@ -1,0 +1,81 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+
+@theme {
+    --font-sans: 'Vazirmatn', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+
+    --color-sopal-50: #E8F6F4;
+    --color-sopal-100: #B7E1DC;
+    --color-sopal-200: #8CD0C9;
+    --color-sopal-300: #5BB8AE;
+    --color-sopal-400: #2A9D8F;
+    --color-sopal-500: #176B6A;
+    --color-sopal-600: #0D3D46;
+    --color-sopal-700: #0A2E34;
+    --color-sopal-800: #071F23;
+    --color-sopal-900: #041012;
+}
+
+/* RTL Base Styles */
+[dir="rtl"] {
+    direction: rtl;
+    text-align: right;
+}
+
+/* Anchor targets land below the fixed glass header */
+section[id] {
+    scroll-margin-top: 84px;
+}
+
+/* Custom scrollbar for RTL */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #2A9D8F;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #176B6A;
+}
+
+/* Smooth scroll */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Fixed nav shadow state (toggled by Alpine in nav.blade.php) */
+.nav-scrolled {
+    box-shadow: 0 8px 24px rgba(4, 16, 18, 0.25);
+    background-color: rgba(23, 107, 106, 0.92);
+}
+
+/* Persian numerals align consistently in stat counters */
+.tabular-nums {
+    font-variant-numeric: tabular-nums;
+}
+
+/* Alpine.js hidden-until-initialized guard (mobile nav panel) */
+[x-cloak] {
+    display: none !important;
+}
+
+/* Ensure the body uses the Vazirmatn stack even before Tailwind utilities load */
+body {
+    font-family: 'Vazirmatn', ui-sans-serif, system-ui, sans-serif;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto !important;
+    }
+}

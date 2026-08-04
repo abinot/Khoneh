@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -v \"^$\")",
+      "Bash(composer require *)",
+      "Bash(php artisan *)",
+      "Bash(composer show *)",
+      "Bash(npm install *)"
+    ]
+  }
+}
