@@ -72,6 +72,11 @@ body{min-height:100vh;background:#FAFCFC;color:#111827}
   transition:color .25s ease,opacity .25s ease,border-color .25s ease,background .25s ease}
 .adm-logout:hover{opacity:1;color:#a63b2c;background:#fdf0ef;border-color:rgba(192,57,43,.2)}
 .adm-logout:focus-visible{outline:2px solid #00939d;outline-offset:2px}
+.adm-pass{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:11px;
+  color:#16656b;font-size:12.5px;font-weight:600;border:1px solid transparent;text-decoration:none;
+  transition:color .25s ease,opacity .25s ease,border-color .25s ease,background .25s ease}
+.adm-pass:hover{color:#0d4145;background:#e7f4f5;border-color:rgba(0,147,157,.2)}
+.adm-pass:focus-visible{outline:2px solid #00939d;outline-offset:2px}
 
 /* content */
 .adm-wrap{max-width:72rem;margin:0 auto;padding:1.6rem 1rem 2.4rem}
@@ -213,6 +218,10 @@ body{min-height:100vh;background:#FAFCFC;color:#111827}
           <small>{{ ($auth->role ?? 'user') === 'admin' ? 'مدیر' : 'کاربر' }}</small>
         </span>
       </div>
+      <a href="{{ route('password.edit') }}" class="adm-pass" aria-label="تغییر رمز عبور">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="10.5" width="17" height="10" rx="2.5"/><path d="M7.5 10.5V7a4.5 4.5 0 019 0v3.5"/><circle cx="12" cy="15.5" r="1.4"/></svg>
+        تغییر رمز
+      </a>
       <form method="POST" action="{{ route('logout') }}">
         @csrf
         <button type="submit" class="adm-logout">

@@ -34,6 +34,8 @@ Route::middleware('guest')->group(function () {
 Route::middleware(['auth', 'active'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/password', [AuthController::class, 'showPassword'])->name('password.edit');
+    Route::patch('/password', [AuthController::class, 'updatePassword'])->name('password.update');
 });
 
 /* ---------- admin only ---------- */

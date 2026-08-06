@@ -40,7 +40,7 @@ class AuthRegistrationTest extends TestCase
         $this->enableRegistration(false);
 
         $this->get(route('register'))->assertNotFound();
-        $this->post(route('register'), $this->testFields())
+        $this->post(route('register'), $this->test_fields())
             ->assertNotFound();
     }
 
@@ -48,7 +48,7 @@ class AuthRegistrationTest extends TestCase
     {
         $this->enableRegistration();
 
-        $this->post(route('register'), $this->testFields())
+        $this->post(route('register'), $this->test_fields())
             ->assertRedirect(route('login'))
             ->assertSessionHas('status');
 
@@ -60,7 +60,7 @@ class AuthRegistrationTest extends TestCase
         $this->enableRegistration();
         User::factory()->create(['email' => 'sara@example.com']);
 
-        $this->post(route('register'), $this->testFields())
+        $this->post(route('register'), $this->test_fields())
             ->assertSessionHasErrors('email');
     }
 
@@ -68,7 +68,7 @@ class AuthRegistrationTest extends TestCase
     {
         $this->enableRegistration();
 
-        $this->post(route('register'), $this->testFields(['password' => '123', 'password_confirmation' => '123']))
+        $this->post(route('register'), $this->test_fields(['password' => '123', 'password_confirmation' => '123']))
             ->assertSessionHasErrors('password');
     }
 
@@ -76,7 +76,7 @@ class AuthRegistrationTest extends TestCase
     {
         $this->enableRegistration();
 
-        $this->post(route('register'), $this->testFields(['password_confirmation' => 'not-matching']))
+        $this->post(route('register'), $this->test_fields(['password_confirmation' => 'not-matching']))
             ->assertSessionHasErrors('password_confirmation');
     }
 }

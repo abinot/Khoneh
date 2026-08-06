@@ -49,8 +49,8 @@ body{min-height:100vh;background:#FAFCFC;color:#111827}
 
 /* ============ auth shell — the "تمدد" horizon ============ */
 .aut-body{
-  position:relative;min-height:100vh;overflow:hidden;
-  display:flex;align-items:center;justify-content:center;
+  position:relative;min-height:100vh;overflow-x:hidden;overflow-y:auto;
+  display:flex;align-items:safe center;justify-content:center;
   background:
     radial-gradient(90% 60% at 50% -10%,rgba(0,147,157,.10),transparent 60%),
     radial-gradient(70% 50% at 88% 110%,rgba(43,150,158,.08),transparent 60%),

@@ -568,12 +568,43 @@ tailwind.config = {
     .tm-badge,.tm-row,.tm-row::after,.tm-cta svg{transition:none !important}
   }
 
+  /* CTA — closing band */
+  .cta-wrap{position:relative;isolation:isolate;overflow:hidden;
+    background:linear-gradient(180deg,transparent,rgba(0,147,157,.045) 55%,transparent);
+    border-radius:26px;padding:3.2rem 1.5rem}
+  .cta-wrap::before{content:'';position:absolute;top:-90px;left:50%;transform:translateX(-50%);
+    width:420px;height:220px;border-radius:50%;pointer-events:none;
+    background:radial-gradient(circle,rgba(0,147,157,.14),transparent 68%);
+    filter:blur(14px);z-index:0}
+  .cta-wrap > *{position:relative;z-index:1}
+  .cta-btns{display:flex;flex-direction:column;gap:12px}
+  @media(min-width:640px){.cta-btns{flex-direction:row;justify-content:center}}
+  .cta-card{display:inline-flex;align-items:center;gap:12px;justify-content:center;
+    padding:14px 26px;border-radius:14px;background:#fff;color:#0d4145;
+    border:1px solid rgba(0,147,157,.22);
+    box-shadow:0 2px 6px rgba(13,65,69,.04);
+    font-size:14.5px;font-weight:700;
+    transition:transform .3s cubic-bezier(.34,1.56,.64,1),border-color .3s ease,box-shadow .35s ease}
+  .cta-card:hover{transform:translateY(-3px);border-color:rgba(0,147,157,.5);
+    box-shadow:0 14px 30px -12px rgba(0,147,157,.28)}
+  .cta-card svg{width:18px;height:18px;color:#00939d;flex-shrink:0}
+  .cta-card:hover svg{color:#0d4145}
+  .cta-note{margin-top:22px;display:flex;align-items:center;justify-content:center;gap:8px;
+    font-size:12.5px;color:#1F2937;opacity:.55}
+  .cta-note .tide{width:22px;height:2px}
+
   /* faq accordion — soft card items with tide accents */
   .faq-list{display:flex;flex-direction:column;gap:10px}
   .faq-item{background:#fff;border:1px solid #E9F2F2;border-radius:14px;
     padding:2px 18px;position:relative;overflow:hidden;
     box-shadow:0 1px 2px rgba(13,65,69,.03);
     transition:border-color .3s ease,box-shadow .35s ease,transform .3s cubic-bezier(.22,1,.36,1)}
+  .faq-item:hover{transform:translateY(-2px);border-color:rgba(0,147,157,.22)}
+  .faq-num{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;
+    width:26px;height:26px;border-radius:8px;font-size:10.5px;font-weight:800;
+    background:#e7f4f5;color:#16656b;border:1px solid rgba(0,147,157,.16);
+    transition:background .3s ease,color .3s ease,transform .3s cubic-bezier(.34,1.56,.64,1)}
+  .faq-item.open .faq-num{background:#00939d;color:#fff;border-color:#00939d;transform:scale(1.05)}
   .faq-item::before{content:'';position:absolute;top:0;right:0;left:0;height:2px;border-radius:2px;
     background:linear-gradient(90deg,#00939d,#7cccd1);transform:scaleX(0);transform-origin:right;
     opacity:0;transition:transform .5s cubic-bezier(.22,1,.36,1),opacity .4s ease}
@@ -708,6 +739,111 @@ tailwind.config = {
   @media (prefers-reduced-motion:reduce){
     .reveal,.reveal-scale,.hero-in,.card,.img-zoom,.btn,.tide::after{animation:none !important;transition:none !important}
     .reveal,.reveal-scale,.hero-in{opacity:1;transform:none}
+  }
+
+  /* footer — deep-sea floor. Echoes the testimonials "deep-sea haven" but
+     quieter: a teal dot-grid masked toward the top, two drifting glow orbits,
+     a slow ripple band at the bottom, and the tide seam with a drifting glow
+     dot at the very top. Reuses the .tide component and pfDrift keyframe for
+     drift dots — zero new JS. */
+  .ft-bg{isolation:isolate;overflow:hidden;
+    background:
+      radial-gradient(110% 80% at 50% -12%, rgba(43,150,158,.12) 0%, transparent 60%),
+      radial-gradient(80% 60% at 100% 115%, rgba(0,147,157,.10) 0%, transparent 55%),
+      linear-gradient(180deg,#041012 0%,#081f1f 45%,#041012 100%)}
+  .ft-dots{position:absolute;inset:0;z-index:0;pointer-events:none;
+    background-image:radial-gradient(rgba(124,204,209,.18) 1px, transparent 1.9px);
+    background-size:32px 32px;
+    -webkit-mask-image:radial-gradient(120% 95% at 50% 0, #000 12%, transparent 78%);
+            mask-image:radial-gradient(120% 95% at 50% 0, #000 12%, transparent 78%)}
+  .ft-orbit{position:absolute;border-radius:50%;pointer-events:none;filter:blur(22px);opacity:.3}
+  .ft-orbit-a{top:-90px;right:-70px;width:300px;height:300px;
+    background:radial-gradient(circle,rgba(0,147,157,.28),transparent 65%);
+    animation:ftFloat 9s ease-in-out infinite alternate}
+  .ft-orbit-b{bottom:-80px;left:-70px;width:280px;height:280px;
+    background:radial-gradient(circle,rgba(43,150,158,.20),transparent 65%);
+    animation:ftFloat 11s ease-in-out infinite alternate-reverse}
+  @keyframes ftFloat{0%{transform:translate(0,0)}100%{transform:translate(-18px,22px)}}
+  .ft-wave-line{position:absolute;left:-20%;right:-20%;bottom:-10px;height:110px;z-index:0;pointer-events:none;opacity:.4;
+    background:repeating-radial-gradient(circle at 50% 100%, rgba(0,147,157,0) 0 44px, rgba(43,150,158,.10) 44px 47px);
+    -webkit-mask-image:linear-gradient(180deg,transparent 34%,#000);
+            mask-image:linear-gradient(180deg,transparent 34%,#000);
+    animation:ftWaveSlide 16s linear infinite}
+  @keyframes ftWaveSlide{0%{transform:translateX(0)}100%{transform:translateX(-140px)}}
+  .ft-seam-top{position:absolute;top:0;left:8%;right:8%;height:2px;border-radius:2px;z-index:2;
+    background:linear-gradient(90deg,transparent,rgba(0,147,157,.55) 16%,#7cccd1 50%,rgba(0,147,157,.55) 84%,transparent);
+    opacity:.8}
+  .ft-seam-dot{position:absolute;top:-4px;right:8%;width:9px;height:9px;border-radius:50%;
+    background:#7cccd1;box-shadow:0 0 0 4px rgba(0,147,157,.16),0 0 14px rgba(124,204,209,.5);
+    animation:pfDrift 7s ease-in-out infinite alternate}
+  .ft-logo{position:relative;width:40px;height:40px;border-radius:11px;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(135deg,#0d4145,#16656b);
+    border:1px solid rgba(124,204,209,.3);
+    box-shadow:0 6px 16px -6px rgba(0,147,157,.4),inset 0 1px 0 rgba(255,255,255,.14);
+    transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s ease}
+  .ft-logo svg{width:21px;height:21px;color:#7cccd1}
+  .ft-logo:hover{transform:translateY(-2px);box-shadow:0 12px 24px -8px rgba(0,147,157,.55),inset 0 1px 0 rgba(255,255,255,.2)}
+  .ft-trust{display:flex;flex-direction:column;gap:10px}
+  .ft-trust-row{display:flex;align-items:center;gap:9px;color:rgba(255,255,255,.62);font-size:12px;
+    transition:color .2s ease,transform .3s cubic-bezier(.34,1.56,.64,1)}
+  .ft-trust-row .tide{width:15px;height:2px}
+  .ft-trust-row:hover{color:#b7dee0;transform:translateX(-3px)}
+  .ft-social{position:relative;display:inline-flex;align-items:center;justify-content:center;
+    width:36px;height:36px;border-radius:9px;
+    background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);
+    color:rgba(255,255,255,.55);
+    transition:background .22s ease,border-color .3s ease,color .25s ease,
+      transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s ease}
+  .ft-social svg{width:18px;height:18px}
+  .ft-social:hover{background:rgba(0,147,157,.25);border-color:rgba(124,204,209,.45);
+    color:#fff;transform:translateY(-4px);box-shadow:0 10px 22px -8px rgba(0,147,157,.45)}
+  .ft-social:focus-visible{outline:2px solid #7cccd1;outline-offset:3px}
+  .ft-social::after{content:attr(data-label);position:absolute;top:-31px;left:50%;
+    transform:translateX(-50%) translateY(4px);white-space:nowrap;
+    background:#041012;border:1px solid rgba(0,147,157,.35);color:#b7dee0;
+    font-size:10px;font-weight:700;line-height:1;padding:5px 9px;border-radius:7px;
+    box-shadow:0 8px 18px -6px rgba(0,0,0,.5);
+    opacity:0;pointer-events:none;transition:opacity .2s ease,transform .2s ease}
+  .ft-social:hover::after,.ft-social:focus-visible::after{opacity:1;transform:translateX(-50%) translateY(0)}
+  .ft-link{position:relative;display:inline-block;color:rgba(255,255,255,.55);font-size:13px;
+    transition:color .22s ease,transform .3s cubic-bezier(.22,1,.36,1)}
+  .ft-link::after{content:'';position:absolute;bottom:-3px;right:0;width:100%;height:2px;border-radius:2px;
+    background:linear-gradient(90deg,#00939d,#7cccd1);
+    transform:scaleX(0);transform-origin:right;opacity:0;
+    transition:transform .4s cubic-bezier(.22,1,.36,1),opacity .3s ease}
+  .ft-link:hover{color:#fff;transform:translateX(-3px)}
+  .ft-link:hover::after{transform:scaleX(1);opacity:1}
+  .ft-link:focus-visible{outline:2px solid #7cccd1;outline-offset:3px;border-radius:4px}
+  .ft-link-cta{color:#7cccd1;font-weight:600}
+  .ft-link-cta::after{background:linear-gradient(90deg,#7cccd1,#00939d)}
+  .ft-h4{display:flex;align-items:center;gap:8px;color:rgba(255,255,255,.72);
+    font-size:12px;font-weight:700;letter-spacing:.02em}
+  .ft-h4 .tide{width:16px;height:2px}
+  .ft-crow{display:flex;align-items:center;gap:9px;color:rgba(255,255,255,.5);font-size:13px;
+    transition:color .2s ease}
+  .ft-crow svg{width:15px;height:15px;flex-shrink:0;color:#7cccd1}
+  .ft-crow:hover{color:#b7dee0}
+  .ft-footline{position:relative}
+  .ft-foot-seam{position:absolute;top:0;left:6%;right:6%;height:1.5px;border-radius:2px;
+    background:linear-gradient(90deg,transparent,rgba(0,147,157,.4),#7cccd1 50%,rgba(0,147,157,.4),transparent);
+    opacity:.7}
+  .ft-foot-seam::after{content:'';position:absolute;top:-4px;right:12%;width:8px;height:8px;border-radius:50%;
+    background:#00939d;box-shadow:0 0 0 4px rgba(0,147,157,.14),0 0 12px rgba(124,204,209,.5);
+    animation:ftFootDrift 5.5s ease-in-out infinite alternate}
+  @keyframes ftFootDrift{from{right:12%}to{right:80%}}
+  .ft-made{display:inline-flex;align-items:center;gap:8px}
+  .ft-made i{width:5px;height:5px;border-radius:50%;background:#7cccd1;
+    animation:ftBop 2.2s ease-in-out infinite}
+  .ft-made i:nth-child(2){animation-delay:.15s}
+  .ft-made i:nth-child(3){animation-delay:.3s}
+  @keyframes ftBop{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(-3px);opacity:1}}
+  @media (prefers-reduced-motion:reduce){
+    .ft-orbit,.ft-orbit-a,.ft-orbit-b,.ft-wave-line,.ft-seam-dot,
+    .ft-foot-seam::after,.ft-made i{animation:none !important;transition:none !important}
+    .ft-orbit-a,.ft-orbit-b,.ft-wave-line,.ft-foot-seam::after,.ft-made i{opacity:.5}
+    .ft-social,.ft-link,.ft-logo,.ft-trust-row{transition:none !important}
+    .ft-social::after{display:none}
   }
 </style>
 </head>
@@ -1369,6 +1505,7 @@ document.addEventListener('alpine:init', function(){
               :aria-expanded="(openIndex === idx).toString()"
             >
               <span class="faq-q">
+                <span class="faq-num" x-text="['۰۱','۰۲','۰۳','۰۴'][idx]" aria-hidden="true"></span>
                 <span class="faq-qi" aria-hidden="true">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.2 9a2.8 2.8 0 015.6 0c0 1.9-2.8 2.4-2.8 4"/><path d="M12 17h.01"/></svg>
                 </span>
@@ -1391,14 +1528,26 @@ document.addEventListener('alpine:init', function(){
 <!-- CTA -->
 <section id="contact" class="py-24 md:py-32">
   <div class="max-w-2xl mx-auto px-5 text-center reveal">
-    <div class="tide tide-lg mx-auto mb-6"></div>
-    <h2 class="text-2xl sm:text-3xl md:text-[2.2rem] font-bold text-ink-900 mb-5 leading-tight">بیایید گفتگو کنیم</h2>
-    <p class="text-[15px] sm:text-base text-ink-800/60 mb-9 max-w-md mx-auto leading-relaxed">
-      اگر پروژه‌ای در ذهن دارید یا می‌خواهید درباره راهکارهای ما بیشتر بدانید، خوشحال می‌شویم صدای شما را بشنویم.
-    </p>
-    <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
-      <a href="mailto:hello@sopal.ir" class="btn btn-primary w-full sm:w-auto">آغاز گفتگو</a>
-      <a href="tel:+987712345678" class="btn btn-secondary w-full sm:w-auto">تماس تلفنی</a>
+    <div class="cta-wrap">
+      <div class="tide tide-lg mx-auto mb-6"></div>
+      <h2 class="text-2xl sm:text-3xl md:text-[2.2rem] font-bold text-ink-900 mb-5 leading-tight">بیایید گفتگو کنیم</h2>
+      <p class="text-[15px] sm:text-base text-ink-800/60 mb-9 max-w-md mx-auto leading-relaxed">
+        اگر پروژه‌ای در ذهن دارید یا می‌خواهید درباره راهکارهای ما بیشتر بدانید، خوشحال می‌شویم صدای شما را بشنویم.
+      </p>
+      <div class="cta-btns">
+        <a href="mailto:hello@sopal.ir" class="cta-card">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          hello@sopal.ir
+        </a>
+        <a href="tel:+987712345678" class="cta-card">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+          ۰۷-۱۲۳۴۵۶۷۸
+        </a>
+      </div>
+      <div class="cta-note">
+        <span class="tide" aria-hidden="true"></span>
+        پاسخ‌گویی سریع، به فارسی، از کنار خلیج فارس
+      </div>
     </div>
   </div>
 </section>
@@ -1406,53 +1555,91 @@ document.addEventListener('alpine:init', function(){
 </main>
 
 <!-- FOOTER -->
-<footer class="bg-ink-900 text-white pt-16 pb-9 relative">
-  <div class="absolute top-0 inset-x-0 tide tide-lg mx-auto" style="opacity:.6"></div>
-  <div class="max-w-6xl mx-auto px-5 sm:px-8">
-    <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-10">
+<footer class="ft-bg text-white pt-16 pb-9 relative" aria-label="اطلاعات و تماس سوپال">
+  <!-- living seafloor backdrop: teal dot-grid, drifting glows, ripple band -->
+  <div class="ft-dots" aria-hidden="true"></div>
+  <div class="ft-orbit ft-orbit-a" aria-hidden="true"></div>
+  <div class="ft-orbit ft-orbit-b" aria-hidden="true"></div>
+  <div class="ft-wave-line" aria-hidden="true"></div>
+  <div class="ft-seam-top" aria-hidden="true"><span class="ft-seam-dot"></span></div>
+
+  <div class="max-w-6xl mx-auto px-5 sm:px-8 relative z-10">
+    <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-12 gap-y-12 reveal">
+      <!-- brand column -->
       <div class="sm:col-span-2 md:col-span-1">
-        <div class="flex items-center gap-2.5 mb-4">
-          <span class="w-9 h-9 rounded-lg bg-brand-800/40 flex items-center justify-center">
-            <svg class="w-5 h-5 text-brand-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M2 17c1.5 1.5 3 1.5 4.5 0s3-1.5 4.5 0 3 1.5 4.5 0 3-1.5 4.5 0"/><path d="M2 21c1.5 1.5 3 1.5 4.5 0s3-1.5 4.5 0 3 1.5 4.5 0 3-1.5 4.5 0"/><path d="M12 13V4M9 6l3-3 3 3"/></svg>
+        <div class="flex items-center gap-3 mb-5">
+          <span class="ft-logo" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M2 17c1.5 1.5 3 1.5 4.5 0s3-1.5 4.5 0 3 1.5 4.5 0 3-1.5 4.5 0"/><path d="M2 21c1.5 1.5 3 1.5 4.5 0s3-1.5 4.5 0 3 1.5 4.5 0 3-1.5 4.5 0"/><path d="M12 13V4M9 6l3-3 3 3"/></svg>
           </span>
-          <span class="font-bold text-[15px]">سوپال</span>
+          <span class="flex flex-col leading-tight">
+            <span class="font-bold text-[15px]">سوپال</span>
+            <span class="text-white/40 text-[10.5px]">از کنار خلیج فارس</span>
+          </span>
         </div>
-        <p class="text-white/50 leading-relaxed text-[13px] mb-5 max-w-xs">راهکارهای نرم‌افزاری از کنار خلیج فارس. فناوری در خدمت انسان.</p>
+        <p class="text-white/50 leading-relaxed text-[13px] mb-6 max-w-xs">راهکارهای نرم‌افزاری از کنار خلیج فارس. فناوری در خدمت انسان.</p>
+
+        <ul class="ft-trust mb-6">
+          <li class="ft-trust-row"><span class="tide" aria-hidden="true"></span> پاسخ سریع، به فارسی</li>
+          <li class="ft-trust-row"><span class="tide" aria-hidden="true"></span> پشتیبانی مستمر پس از تحویل</li>
+          <li class="ft-trust-row"><span class="tide" aria-hidden="true"></span> ضمانت کیفیت پروژه</li>
+        </ul>
+
         <div class="flex items-center gap-2.5">
-          <a href="https://t.me/sopal" class="social text-white/50" aria-label="تلگرام" target="_blank" rel="noopener noreferrer">
-            <svg class="w-[18px] h-[18px]" fill="currentColor" viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+          <a href="https://t.me/sopal" class="ft-social" data-label="تلگرام" aria-label="تلگرام" target="_blank" rel="noopener noreferrer">
+            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
           </a>
-          <a href="mailto:hello@sopal.ir" class="social text-white/50" aria-label="ایمیل">
-            <svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          <a href="mailto:hello@sopal.ir" class="ft-social" data-label="ایمیل" aria-label="ایمیل">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
           </a>
-          <a href="tel:+987712345678" class="social text-white/50" aria-label="تلفن">
-            <svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+          <a href="tel:+987712345678" class="ft-social" data-label="تلفن" aria-label="تلفن">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
           </a>
         </div>
       </div>
+
+      <!-- quick links -->
       <div>
-        <h4 class="text-[12px] font-bold text-white/70 mb-4 tracking-wide">دسترسی سریع</h4>
-        <ul class="space-y-2.5">
-          <li><a href="#home" class="footer-link text-white/50 text-[13px]">خانه</a></li>
-          <li><a href="#services" class="footer-link text-white/50 text-[13px]">خدمات</a></li>
-          <li><a href="#portfolio" class="footer-link text-white/50 text-[13px]">نمونه‌کار</a></li>
-          <li><a href="/about" class="footer-link text-white/50 text-[13px]">درباره ما</a></li>
-          <li><a href="/contact" class="footer-link text-white/50 text-[13px]">ارتباط</a></li>
-          <li><a href="{{ route('login') }}" class="footer-link text-white/50 text-[13px]">ورود به حساب</a></li>
+        <h4 class="ft-h4 mb-5"><span class="tide" aria-hidden="true"></span>دسترسی سریع</h4>
+        <ul class="space-y-3">
+          <li><a href="#home" class="footer-link ft-link">خانه</a></li>
+          <li><a href="#services" class="footer-link ft-link">خدمات</a></li>
+          <li><a href="#portfolio" class="footer-link ft-link">نمونه‌کار</a></li>
+          <li><a href="/about" class="footer-link ft-link">درباره ما</a></li>
+          <li><a href="/contact" class="footer-link ft-link">ارتباط</a></li>
+          <li><a href="{{ route('login') }}" class="footer-link ft-link ft-link-cta">ورود به حساب</a></li>
         </ul>
       </div>
+
+      <!-- contact -->
       <div>
-        <h4 class="text-[12px] font-bold text-white/70 mb-4 tracking-wide">ارتباط</h4>
-        <ul class="space-y-2.5">
-          <li class="text-white/50 text-[13px]">بوشهر، ایران</li>
-          <li><a href="mailto:hello@sopal.ir" class="footer-link text-white/50 text-[13px]">hello@sopal.ir</a></li>
-          <li><a href="tel:+987712345678" class="footer-link text-white/50 text-[13px]">۰۷-۱۲۳۴۵۶۷۸</a></li>
+        <h4 class="ft-h4 mb-5"><span class="tide" aria-hidden="true"></span>ارتباط</h4>
+        <ul class="space-y-3">
+          <li class="ft-crow">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M12 21s-6-5.2-6-10a6 6 0 1112 0c0 4.8-6 10-6 10z"/><circle cx="12" cy="11" r="2.2"/></svg>
+            بوشهر، ایران
+          </li>
+          <li class="ft-crow">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+            <a href="mailto:hello@sopal.ir" class="footer-link ft-link">hello@sopal.ir</a>
+          </li>
+          <li class="ft-crow">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+            <a href="tel:+987712345678" class="footer-link ft-link">۰۷-۱۲۳۴۵۶۷۸</a>
+          </li>
         </ul>
       </div>
     </div>
-    <div class="border-t border-white/[.08] mt-11 pt-7 flex flex-col sm:flex-row items-center justify-between gap-3">
-      <p class="text-white/35 text-[12px]">© ۱۴۰۳ سوپال. تمامی حقوق محفوظ است.</p>
-      <p class="text-white/25 text-[11px]">ساخته شده با آرامش، از کنار خلیج فارس</p>
+
+    <!-- bottom bar: tide divider + live tagline -->
+    <div class="ft-footline relative mt-12 pt-10">
+      <div class="ft-foot-seam" aria-hidden="true"></div>
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
+        <p class="text-white/35 text-[12px]">© ۱۴۰۳ سوپال. تمامی حقوق محفوظ است.</p>
+        <p class="ft-made text-white/30 text-[11px]">
+          ساخته شده با آرامش، از کنار خلیج فارس
+          <span class="flex items-center gap-[5px]" aria-hidden="true"><i></i><i></i><i></i></span>
+        </p>
+      </div>
     </div>
   </div>
 </footer>
