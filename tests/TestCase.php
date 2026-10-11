@@ -3,23 +3,14 @@
 namespace Tests;
 
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Laravel\Fortify\Features;
 
 abstract class TestCase extends BaseTestCase
 {
-    protected function setUp(): void
+    protected function skipUnlessFortifyHas(string $feature, ?string $message = null): void
     {
-        parent::setUp();
-
-        // Sandbox keeps storage/ read-only; re-point the Blade compiled-view
-        // cache at a writable temp dir and drop the cached singletons so the
-        // next resolution picks it up.
-        $path = sys_get_temp_dir().'/sopal-view-compiled-'.getmypid();
-        if (! is_dir($path)) {
-            mkdir($path, 0777, true);
+        if (! Features::enabled($feature)) {
+            $this->markTestSkipped($message ?? "Fortify feature [{$feature}] is not enabled.");
         }
-
-        $this->app->config->set('view.compiled', $path);
-        $this->app->forgetInstance('blade.compiler');
-        $this->app->forgetInstance('view.engine.resolver');
     }
 }
