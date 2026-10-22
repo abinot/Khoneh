@@ -64,3 +64,14 @@ select:focus[data-flux-control] {
 }
 
 
+
+@import 'vazirmatn/Vazirmatn-font-face.css';
+
+@theme {
+    --font-sans: 'Vazirmatn', sans-serif;
+}
+
+/* اگر Flux داری، این هم لازم است چون Flux روی متغیر خودش کار می‌کند */
+:root {
+    --font-sans: 'Vazirmatn', sans-serif;
+}
